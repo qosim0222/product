@@ -20,20 +20,28 @@ model Category {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  price       Int
-  color       String
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Int
+  color      String
   categoryId Int
-  category    Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   name     String
   email    String
   password String
   role     Role
+  Sessions Sessions[]
+}
+
+model Sessions {
+  id     Int    @id @default(autoincrement())
+  ip     String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 enum Role {

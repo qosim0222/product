@@ -8,7 +8,7 @@ export class CategoryService {
 
   constructor(private readonly prisma: PrismaService) { }
   async create(createCategoryDto: CreateCategoryDto) {
-    try {
+      try {
       let created = await this.prisma.category.create({ data: createCategoryDto })
       return ({ data: created })
     } catch (error) {
@@ -18,7 +18,7 @@ export class CategoryService {
 
   async findAll() {
     try {
-      let data = await this.prisma.category.findMany({})
+      let data = await this.prisma.category.findMany({include:{Product:true}})
       return { data }
     } catch (error) {
       throw new BadRequestException(error.message)
