@@ -58,13 +58,16 @@ export class UserController {
     return this.userService.findAll();
   }
   
-  @UseGuards()
+  @Roles(Role.ADMIN)
+  @UseGuards(RoleGuard)
   @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @UseGuards(RoleGuard)
   @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
