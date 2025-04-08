@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -6,7 +6,9 @@ import { Roles } from 'src/guards/role.decorator';
 import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

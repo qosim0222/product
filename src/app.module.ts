@@ -8,6 +8,8 @@ import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import redisStore from 'cache-manager-ioredis'
 
 @Module({
   imports: [CategoryModule, ProductModule, PrismaModule, UploadModule,
@@ -16,6 +18,14 @@ import { UserModule } from './user/user.module';
       serveRoot:'/uploads'
     }),
     UserModule,
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60 * 1000,
+      store: redisStore,
+      host: '127.17.0.2',
+      port: 6379
+    }),
+    
   ],
   controllers: [AppController],
   providers: [AppService],
